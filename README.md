@@ -1,1 +1,135 @@
-# exp15
+
+# Exp 15 - Fetch Student Details Using Axios in React
+## NAME:   KUNAM POORNA CHANDRA RAO
+## REG NO: 2305001012
+## Aim
+To develop a React application using Axios to send a GET request to a REST API, retrieve student information in JSON format, and display the details when the user clicks the View Details button.
+
+## Objectives
+1. To understand Axios and its usage in React applications.
+2. To install and configure the Axios library.
+3. To perform GET requests using Axios.
+4. To retrieve and display API data using React state.
+5. To handle loading and error messages during API requests.
+
+## Program
+
+**App.jsx**
+
+```jsx
+import { useState } from "react";
+import axios from "axios";
+import "./App.css";
+
+function App() {
+  const [student, setStudent] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function getStudentDetails() {
+    setLoading(true);
+    setError("");
+    setStudent(null);
+
+    try {
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/users/1"
+      );
+
+      setStudent({
+        id: response.data.id,
+        name: "poornachandra",
+        email: "kuanmpoornachandra@gmail.com",
+        city: response.data.address.city
+      });
+    } catch (err) {
+      setError("Unable to fetch student details. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="container">
+      <h1>Student Management System</h1>
+      <p>Click below to view student details.</p>
+
+      <button onClick={getStudentDetails} disabled={loading}>
+        {loading ? "Loading..." : "View Details"}
+      </button>
+
+      {loading && <p>Fetching student data...</p>}
+      {error && <p className="error">{error}</p>}
+
+      {student && (
+        <div className="student-card">
+          <h2>Student Details</h2>
+          <p><strong>ID:</strong> {student.id}</p>
+          <p><strong>Name:</strong> {student.name}</p>
+          <p><strong>Email:</strong> {student.email}</p>
+          <p><strong>City:</strong> {student.city}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
+```
+
+**App.css**
+
+```css
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+}
+
+.container {
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 25px;
+  text-align: center;
+  background: white;
+  border-radius: 12px;
+}
+
+h1 {
+  color: #1d4ed8;
+}
+
+button {
+  padding: 12px 22px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.student-card {
+  margin-top: 25px;
+  padding: 20px;
+  text-align: left;
+  background: #dbeafe;
+  border-radius: 8px;
+}
+
+.error {
+  color: red;
+}
+```
+
+## Output
+The React application displays a Student Management System with a View Details button. When clicked, the application retrieves data from the REST API using Axios and displays the student ID, name, email, and city.
+<img width="800" height="437" alt="image" src="https://github.com/user-attachments/assets/bc45c700-f971-484b-adc8-5dcc624a046e" />
+
+
+## Result
+Thus, a React application was successfully implemented using Axios to fetch data from a REST API and display student details with loading and error handling.
